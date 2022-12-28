@@ -7,17 +7,16 @@ public class ValidateISBN {
             throw new NumberFormatException("ISBN numbers must be 10 digits long");
         }
 
-        if (!isbn.matches("[0-9]+")) {
-            throw new NumberFormatException("ISBN numbers must be numeric");
-        }
-
         int total = 0;
         for (int i = 0; i < 10; i++) {
             char currentChar = isbn.charAt(i);
             if (!Character.isDigit(currentChar)) {
-                throw new NumberFormatException("ISBN numbers can only contain numeric digits");
+                if (!(i == 9 && currentChar == 'X')) {
+                    throw new NumberFormatException("ISBN numbers can only contain numeric digits");
+                }
+                currentChar = 10;
             }
-            total += currentChar * (10 - i);
+            total += Character.getNumericValue(currentChar) * (10 - i);
         }
 
         return total % 11 == 0;

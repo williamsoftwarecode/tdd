@@ -17,6 +17,13 @@ class ValidateISBNTest {
     }
 
     @Test
+    public void ISBNNumbersEndingInAnXAreValid() {
+        ValidateISBN validator = new ValidateISBN();
+        boolean result = validator.checkISBN("012000030X");
+        assertTrue(result);
+    }
+
+    @Test
     public void checkAnInvalidISBN() {
         ValidateISBN validator = new ValidateISBN();
         boolean result = validator.checkISBN("0140449117");

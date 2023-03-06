@@ -2,20 +2,25 @@ package com.isbntools;
 
 public class StockManager {
 
-    private final ExternalISBNDataService service;
+    private ExternalISBNDataService webService;
+    private ExternalISBNDataService databaseService;
 
-    public StockManager(ExternalISBNDataService service) {
-        this.service = service;
+    public void setWebService(ExternalISBNDataService webService) {
+        this.webService = webService;
+    }
+
+    public void setDatabaseService(ExternalISBNDataService databaseService) {
+        this.databaseService = databaseService;
     }
 
     public String getLocatorCode(String isbn) {
-        Book book = service.lookup(isbn);
+        Book book = databaseService.lookup(isbn);
+        if (book == null) {
+            book = webService.lookup(isbn);
+        }
 
-        StringBuilder locatorCode = new StringBuilder();
-        locatorCode.append(isbn.substring(isbn.length() - 4));
-        locatorCode.append(book.getAuthor().charAt(0));
-        locatorCode.append(book.getTitle().split(" ").length);
-
-        return locatorCode.toString();
+        return isbn.substring(isbn.length() - 4) +
+                book.getAuthor().charAt(0) +
+                book.getTitle().split(" ").length;
     }
 }

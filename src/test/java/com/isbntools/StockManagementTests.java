@@ -35,8 +35,8 @@ public class StockManagementTests {
         stockManager.setDatabaseService(mockDatabaseService);
 
         stockManager.getLocatorCode(isbn);
-        verify(mockDatabaseService, times(1)).lookup(isbn);
-        verify(mockWebService, times(0)).lookup(anyString());
+        verify(mockDatabaseService).lookup(isbn);
+        verify(mockWebService, never()).lookup(anyString());
     }
 
     @Test
@@ -53,7 +53,7 @@ public class StockManagementTests {
         stockManager.setDatabaseService(mockDatabaseService);
 
         stockManager.getLocatorCode(isbn);
-        verify(mockDatabaseService, times(1)).lookup(isbn);
-        verify(mockWebService, times(1)).lookup(isbn);
+        verify(mockDatabaseService).lookup(isbn);
+        verify(mockWebService).lookup(isbn);
     }
 }
